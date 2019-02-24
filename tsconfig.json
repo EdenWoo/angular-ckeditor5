@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "angular-ckeditor5": [
+        "dist/angular-ckeditor5"
+      ],
+      "angular-ckeditor5/*": [
+        "dist/angular-ckeditor5/*"
+      ]
+    }
   }
 }
