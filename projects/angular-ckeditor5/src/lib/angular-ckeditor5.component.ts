@@ -25,7 +25,7 @@ import {UploadAdapter} from './upload-adaptor';
   templateUrl: './angular-ckeditor5.component.html',
   providers: [MakeProvider(AngularCkeditor5Component)]
 })
-export class AngularCkeditor5Component extends AbstractValueAccessor implements OnInit, AfterContentChecked {
+export class AngularCkeditor5Component extends AbstractValueAccessor implements OnInit {
   @Input() formControlName: string;
   @Input() formControl: AbstractControl;
   // file output
@@ -35,10 +35,7 @@ export class AngularCkeditor5Component extends AbstractValueAccessor implements 
   // ck editor
   _ckEditorConfig: Config;
   _editor = DecoupledEditor;
-  @Input() documentId: string;
-  @Input() token: string;
   @Input() uploadUrl: string;
-  @Input() apiEndPoint: string;
 
   constructor(public http: HttpClient,
               @Optional() @Host() @SkipSelf()
@@ -47,16 +44,16 @@ export class AngularCkeditor5Component extends AbstractValueAccessor implements 
               public cd: ChangeDetectorRef) {
     super();
 
-    this._ckEditorConfig = {
-      cloudServices: {
-        // PROVIDE CORRECT VALUES HERE:
-        // See the explanation at https://docs.ckeditor.com/ckeditor5/latest/features/collaboration/collaborative-editing.html#data-initialization.
-        // tokenUrl: 'https://example.com/cs-token-endpoint',
-        // uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/',
-        // webSocketUrl: 'your-organization-id.cke-cs.com/ws/',
-        documentId: 'collabEditing'
-      }
-    };
+    // this._ckEditorConfig = {
+    //   cloudServices: {
+    //     // PROVIDE CORRECT VALUES HERE:
+    //     // See the explanation at https://docs.ckeditor.com/ckeditor5/latest/features/collaboration/collaborative-editing.html#data-initialization.
+    //     // tokenUrl: 'https://example.com/cs-token-endpoint',
+    //     // uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/',
+    //     // webSocketUrl: 'your-organization-id.cke-cs.com/ws/',
+    //     documentId: 'collabEditing'
+    //   }
+    // };
   }
 
   ngOnInit(): void {
@@ -88,25 +85,19 @@ export class AngularCkeditor5Component extends AbstractValueAccessor implements 
     console.log(this._value);
   }
 
-  ngAfterContentChecked(): void {
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-  }
+  setDisabledState(isDisabled: boolean): void {}
 
   // ckeditor
   public ckeditorOnReady(editor) {
     const hc = this.httpClient;
-    const tk = this.token;
     const url = this.uploadUrl;
-    const ep = this.apiEndPoint;
     editor.ui.view.editable.element.parentElement.insertBefore(
       editor.ui.view.toolbar.element,
       editor.ui.view.editable.element
     );
     editor.plugins.get('FileRepository').createUploadAdapter = function (loader) {
       console.log(btoa(loader.file));
-      return new UploadAdapter(loader, hc, tk, url, ep);
+      return new UploadAdapter(loader, hc, url);
     };
   }
 }
