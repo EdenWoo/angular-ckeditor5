@@ -145,6 +145,10 @@
           "options": {
             "tsConfig": "projects/angular-ckeditor5/tsconfig.lib.json",
             "project": "projects/angular-ckeditor5/ng-package.json"
+          },"configurations": {
+            "production": {
+              "project": "projects/angular-ckeditor5/ng-package.prod.json"
+            }
           }
         },
         "test": {
