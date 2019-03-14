@@ -8,7 +8,7 @@ ng build angular-ckeditor5 --prod
 
 cd ../../dist/angular-ckeditor5
 
-npm publishls
+npm publish
 
 cd ../../
 
